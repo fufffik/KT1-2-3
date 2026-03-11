@@ -1,0 +1,23 @@
+class StudentClass {
+    name: string;
+    age: number;
+    subject: string;
+
+    constructor(name: string, age: number, subject: string) {
+        this.name = name;
+        this.age = age;
+        this.subject = subject;
+    }
+
+    info(): string {
+        return `${this.name}, ${this.age}, ${this.subject}`;
+    }
+}
+
+// Создание двух студентов
+const student1 = new StudentClass("Иван", 17, "math");
+const student2 = new StudentClass("Мария", 16, "physics");
+
+// Вызов метода info() и вывод результата
+console.log(student1.info());  // "Иван, 17, math"
+console.log(student2.info());  // "Мария, 16, physics"
