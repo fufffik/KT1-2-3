@@ -1,0 +1,51 @@
+class LineItem {
+    quantity: number;
+    price: number;
+
+    constructor(quantity: number, price: number) {
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    total(): number {
+        return this.quantity * this.price;
+    }
+}
+
+// Класс для строк запчастей, наследует и переопределяет total()
+class PartLine extends LineItem {
+    constructor(quantity: number, price: number) {
+        super(quantity, price);
+    }
+
+    total(): number {
+        const baseTotal = super.total();
+        const markup = baseTotal * 0.2;  // 20% наценка/налог для запчастей
+        return baseTotal + markup;
+    }
+}
+
+// Пример класса ServiceLine без изменений
+class ServiceLine extends LineItem {
+    constructor(quantity: number, price: number) {
+        super(quantity, price);
+    }
+    // total() наследуется без изменений
+}
+
+// Код калькулятора - не меняется!
+function calculateInvoiceTotal(items: LineItem[]): number {
+    return items.reduce((sum, item) => sum + item.total(), 0);
+}
+
+// Демонстрация
+const cart: LineItem[] = [
+    new PartLine(2, 100),     // Запчасть: 2*100 = 200, +20% = 240
+    new PartLine(1, 50),      // Запчасть: 1*50 = 50, +20% = 60
+    new ServiceLine(3, 30)    // Услуга: 3*30 = 90, без наценки
+];
+
+console.log('Запчасть 1 total:', (cart[0] as PartLine).total());  // 240
+console.log('Запчасть 2 total:', (cart[1] as PartLine).total());  // 60
+console.log('Услуга total:', (cart[2] as ServiceLine).total());   // 90
+console.log('Общий итог:', calculateInvoiceTotal(cart)); 
